@@ -1,0 +1,33 @@
+erDiagram
+    PROJECT {
+        int id PK
+        string name
+        string description
+        date start_date
+        string status
+    }
+
+    EMPLOYEE {
+        int id PK
+        string name
+        string email
+        string position
+    }
+
+    TASK {
+        int id PK
+        string name
+        string status
+        date due_date
+        int project_id FK
+    }
+
+    ASSIGNMENT {
+        int id PK
+        int task_id FK
+        int employee_id FK
+    }
+
+    PROJECT ||--o{ TASK : "has"
+    TASK ||--o{ ASSIGNMENT : "is assigned to"
+    EMPLOYEE ||--o{ ASSIGNMENT : "works on"

@@ -1,0 +1,35 @@
+-- Create the PROJECT table
+CREATE TABLE PROJECT (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    description TEXT,
+    start_date DATE,
+    status TEXT
+);
+
+-- Create the EMPLOYEE table
+CREATE TABLE EMPLOYEE (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    position TEXT
+);
+
+-- Create the TASK table
+CREATE TABLE TASK (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    status TEXT,
+    due_date DATE,
+    project_id INTEGER,
+    FOREIGN KEY (project_id) REFERENCES PROJECT(id)
+);
+
+-- Create the ASSIGNMENT table
+CREATE TABLE ASSIGNMENT (
+    id INTEGER PRIMARY KEY,
+    task_id INTEGER,
+    employee_id INTEGER,
+    FOREIGN KEY (task_id) REFERENCES TASK(id),
+    FOREIGN KEY (employee_id) REFERENCES EMPLOYEE(id)
+);
