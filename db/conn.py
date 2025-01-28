@@ -1,8 +1,9 @@
 from sqlmodel import SQLModel, create_engine, Session
+from main import settings
 
 
 # Create the SQLite database engine
-engine = create_engine("sqlite:///database.db")
+engine = create_engine(settings.db_url)
 SQLModel.metadata.create_all(engine)
 
 

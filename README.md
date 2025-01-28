@@ -1,4 +1,4 @@
-"Project Maneger API" with FastAPI by Agustin Arnaiz
+"PwC Challenge: Project Manager API" by Agustin Arnaiz. 2025
 
 ## Installation
 
@@ -40,3 +40,12 @@ Update a project
 ### DELETE /projects/id
 https://127.0.0.1/project/1
 Delete a project with the id
+
+
+## DB migration
+
+run this commands on models changes to upgrade database and aply migrations
+```bash
+alembic revision --autogenerate -m "description revision migration"
+alembic upgrade head
+```
