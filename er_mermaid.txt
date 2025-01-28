@@ -3,8 +3,7 @@ erDiagram
         int id PK
         string name
         string description
-        date start_date
-        string status
+        date start_date        
     }
 
     EMPLOYEE {
@@ -16,8 +15,7 @@ erDiagram
 
     TASK {
         int id PK
-        string name
-        string status
+        string name        
         date due_date
         int project_id FK
     }
