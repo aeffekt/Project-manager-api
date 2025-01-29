@@ -1,10 +1,30 @@
 from sqlmodel import Session, select
-from models.project_manager import Task
+from models.project_manager import Task, Project
+from datetime import datetime
 
 
 class TaskService:
     @staticmethod
-    def create_task(task: Task, session: Session):
+    def adjust_due_date_based_on_project(task_data: dict, session: Session):
+        # Convert due_date to a date object if it's a string
+        if isinstance(task_data.get("due_date"), str):
+            task_data["due_date"] = datetime.strptime(task_data["due_date"], "%Y-%m-%d").date()
+
+        # Get project start_date
+        project = session.get(Project, task_data["project_id"])
+        if project and task_data["due_date"] and task_data["due_date"] < project.start_date.date():
+            task_data["due_date"] = project.start_date.date()  # Adjust due_date
+
+        return task_data
+    
+    @staticmethod
+    def create_task(task: Task, session: Session):       
+        task_data = task.model_dump()
+
+        # Adjust due_date based on the project's start_date
+        task_data = TaskService.adjust_due_date_based_on_project(task_data, session)
+
+        task = Task(**task_data)
         session.add(task)
         session.commit()
         session.refresh(task)
@@ -24,6 +44,9 @@ class TaskService:
     def update_task(session: Session, task_id: int, task_data: Task):
         task = TaskService.get_task(session, task_id)
         if task:
+            # Adjust due_date based on the project's start_date
+            task_data = TaskService.adjust_due_date_based_on_project(task_data, session)
+
             task.sqlmodel_update(task_data)
             session.add(task)
             session.commit()

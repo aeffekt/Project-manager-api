@@ -1,0 +1,5 @@
+When creating or updating a task, the "due_date" should be validated and adjusted as follows:
+
+Date Conversion: If the due_date is provided as a string (e.g., "2025-01-29"), it must be automatically converted into a Python date object.
+
+Due Date Validation: After conversion, if the due_date is earlier than the start_date of the associated project, the system should automatically adjust the due_date to match the project's start_date.

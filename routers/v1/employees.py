@@ -4,17 +4,17 @@ from models.project_manager import Employee
 from services.employee_service import EmployeeService
 
 
-router_employee = APIRouter(prefix="/employees", tags=["employees"])
-
-
 # Employee Router
-@router_employee.get("/", status_code=status.HTTP_200_OK)
+router = APIRouter(prefix="/employees", tags=["employees"])
+
+
+@router.get("/", status_code=status.HTTP_200_OK)
 def read_employees(session: Session = Depends(get_session)):
     employees = EmployeeService.get_all_employees(session)
     return {"employees": employees}
 
 
-@router_employee.get("/{employee_id}", status_code=status.HTTP_200_OK)
+@router.get("/{employee_id}", status_code=status.HTTP_200_OK)
 def read_employee(employee_id: int, session: Session = Depends(get_session)):
     employee = EmployeeService.get_employee(session, employee_id)
     if employee is None:
@@ -22,12 +22,12 @@ def read_employee(employee_id: int, session: Session = Depends(get_session)):
     return {"employee": employee}
 
 
-@router_employee.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_employee(employee: Employee, session: Session = Depends(get_session)):
     return EmployeeService.create_employee(employee, session)
 
 
-@router_employee.put("/{employee_id}", status_code=status.HTTP_200_OK)
+@router.put("/{employee_id}", status_code=status.HTTP_200_OK)
 def update_employee(employee_id: int, employee: Employee, session: Session = Depends(get_session)):
     employee_data = employee.model_dump(exclude_unset=True)
     updated_employee = EmployeeService.update_employee(session, employee_id, employee_data)
@@ -36,7 +36,7 @@ def update_employee(employee_id: int, employee: Employee, session: Session = Dep
     return {"employee": updated_employee}
 
 
-@router_employee.delete("/{employee_id}", status_code=status.HTTP_200_OK)
+@router.delete("/{employee_id}", status_code=status.HTTP_200_OK)
 def delete_employee(employee_id: int, session: Session = Depends(get_session)):
     deleted_employee = EmployeeService.delete_employee(session, employee_id)
     if deleted_employee is None:
