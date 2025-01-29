@@ -9,13 +9,13 @@ router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_tasks(session: Session = Depends(get_session)):
+def read_tasks(session: Session = Depends(get_session)) -> list[Task]:
     tasks = TaskService.get_all_tasks(session)
-    return {"tasks": tasks}
+    return tasks
 
 
 @router.get("/{task_id}", status_code=status.HTTP_200_OK)
-def read_task(task_id: int, session: Session = Depends(get_session)):
+def read_task(task_id: int, session: Session = Depends(get_session)) -> dict[str, Task]:
     task = TaskService.get_task(session, task_id)
     if task is None:
         raise HTTPException(status_code=404, detail="task not found")
@@ -23,12 +23,12 @@ def read_task(task_id: int, session: Session = Depends(get_session)):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def create_task(task: Task, session: Session = Depends(get_session)):
+def create_task(task: Task, session: Session = Depends(get_session)) -> Task:
     return TaskService.create_task(task, session)
 
 
 @router.put("/{task_id}", status_code=status.HTTP_200_OK)
-def update_task(task_id: int, task: Task, session: Session = Depends(get_session)):
+def update_task(task_id: int, task: Task, session: Session = Depends(get_session)) -> dict[str, Task]:
     task_data = task.model_dump(exclude_unset=True)
     updated_task = TaskService.update_task(session, task_id, task_data)
     if updated_task is None:
@@ -37,7 +37,7 @@ def update_task(task_id: int, task: Task, session: Session = Depends(get_session
 
 
 @router.delete("/{task_id}", status_code=status.HTTP_200_OK)
-def delete_task(task_id: int, session: Session = Depends(get_session)):
+def delete_task(task_id: int, session: Session = Depends(get_session)) -> dict:
     deleted_task = TaskService.delete_task(session, task_id)
     if deleted_task is None:
         raise HTTPException(status_code=404, detail="task not found")
