@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     app_name: str = "PwC Challenge"    
     secret_key: str
     db_url: str
+    db_password: str
+    supabase_key: str
     model_config = SettingsConfigDict(env_file=".env")    
 
 # Program settings instance

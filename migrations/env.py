@@ -16,13 +16,9 @@ from pathlib import Path
 # access to the values within the .ini file in use.
 config = context.config
 
-if settings.db_url.startswith("sqlite:///"):
-    db_file = settings.db_url.replace("sqlite:///", "")  # Remueve el prefijo sqlite:///
-else:
-    db_file = settings.db_url
-
-DB_PATH = str((Path(__file__).parent.parent / db_file).resolve())
-config.set_main_option('sqlalchemy.url', f"sqlite:///{DB_PATH}")
+# URL de la base de datos desde settings
+DATABASE_URL = settings.db_url
+config.set_main_option('sqlalchemy.url', DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

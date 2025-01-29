@@ -1,0 +1,26 @@
+CREATE TABLE project (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    start_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE employee (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT,
+    position TEXT
+);
+
+CREATE TABLE task (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    due_date DATE,
+    project_id INTEGER NOT NULL REFERENCES project(id) ON DELETE CASCADE
+);
+
+CREATE TABLE assignment (
+    id SERIAL PRIMARY KEY,
+    task_id INTEGER NOT NULL REFERENCES task(id) ON DELETE CASCADE,
+    employee_id INTEGER NOT NULL REFERENCES employee(id) ON DELETE CASCADE
+);

@@ -2,7 +2,7 @@ from sqlmodel import SQLModel, create_engine, Session
 from main import settings
 
 
-# Create the SQLite database engine
+# Create the database engine
 engine = create_engine(settings.db_url)
 SQLModel.metadata.create_all(engine)
 
@@ -11,3 +11,4 @@ SQLModel.metadata.create_all(engine)
 def get_session():
     with Session(engine) as session:
         yield session
+        
