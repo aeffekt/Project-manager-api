@@ -8,6 +8,12 @@ download the project's repository and run the following command:
 pip install -r requirements.txt
 ```
 
+
+## Requirements
+
+Python 3.10+
+
+
 ## Usage
 
 To run the app, run the following command:
@@ -19,7 +25,13 @@ fastapi run dev main.py
 ```
 
 
-## Endpoints are equivalents for: projects / employees / tasks 
+## Swagger and ReDoc Documentation
+
+http://localhost:8000/docs (Swagger UI)
+http://localhost:8000/redoc (ReDoc)
+
+
+## Endpoints for projects. They replicate for: employees, tasks and assignments
 
 ### POST /projects/
 https://127.0.0.1/project/
@@ -42,7 +54,7 @@ https://127.0.0.1/project/1
 Delete a project with the id
 
 
-## DB migration
+## DB migration with alembic
 
 run this commands on models changes to upgrade database and aply migrations
 ```bash

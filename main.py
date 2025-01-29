@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-# uso de settings en fastapi con dotenv: pip install pydantic-settings
+# Pydantic Program settings loading .env file
 class Settings(BaseSettings):
     app_name: str = "PwC Challenge"    
     secret_key: str

@@ -28,8 +28,7 @@ class ProjectService:
         project = ProjectService.get_project(session, project_id)
         if project:
             # Update fields with new data
-            for key, value in project_data.model_dump(exclude_unset=True).items():
-                setattr(project, key, value)
+            project.sqlmodel_update(project_data)
             session.add(project)
             session.commit()
             session.refresh(project)
