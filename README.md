@@ -67,8 +67,6 @@ alembic upgrade head
 
 ## Mermaid Diagrams
 
-### ER Database
-#### [text](https://www.mermaidchart.com/app/projects/8327c60d-192a-473c-8061-60bf1ffbbaa9/diagrams/8b2953d5-01a9-42da-83b9-72d313e7ad5c/version/v0.1/edit)
+### [ER Database](https://www.mermaidchart.com/app/projects/8327c60d-192a-473c-8061-60bf1ffbbaa9/diagrams/8b2953d5-01a9-42da-83b9-72d313e7ad5c/version/v0.1/edit)
 
-### Sequence diagram Integration for assigning tasks to employees
-#### https://www.mermaidchart.com/app/projects/8327c60d-192a-473c-8061-60bf1ffbbaa9/diagrams/eab6ebab-eab4-442c-bdec-7082544e6353/version/v0.1/edit
+### [Sequence diagram Integration for assigning tasks to employees](]https://www.mermaidchart.com/app/projects/8327c60d-192a-473c-8061-60bf1ffbbaa9/diagrams/eab6ebab-eab4-442c-bdec-7082544e6353/version/v0.1/edit)
