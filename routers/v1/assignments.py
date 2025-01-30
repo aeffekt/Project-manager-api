@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from db.conn import get_session, Session
+from db.database import get_session, Session
 from models.project_manager import Assignment
 from services.assignment_service import AssignmentService
 
