@@ -71,7 +71,8 @@ class TaskService:
 
     @staticmethod
     def update_task(session: Session, task_id: int, task_data: Task) -> Optional[Task]:
-        task = TaskService.get_task(session, task_id)
+        statement = select(Task).where(Task.id == task_id)
+        task = session.exec(statement).first()        
         if task:
             # Adjust due_date based on the project's start_date
             task_data = TaskService.adjust_due_date_based_on_project(task_data, session)

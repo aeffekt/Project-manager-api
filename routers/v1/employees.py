@@ -28,7 +28,7 @@ def create_employee(employee: Employee, session: Session = Depends(get_session))
 
 
 @router.put("/{employee_id}", status_code=status.HTTP_200_OK)
-def update_employee(employee_id: int, employee: Employee, session: Session = Depends(get_session)) -> dict[str, Employee]:
+def update_employee(employee_id: int, employee: Employee, session: Session = Depends(get_session)) -> dict:
     employee_data = employee.model_dump(exclude_unset=True)
     updated_employee = EmployeeService.update_employee(session, employee_id, employee_data)
     if updated_employee is None:

@@ -7,9 +7,7 @@ from typing import Optional
 class EmployeeService:
     @staticmethod
     def employee_with_tasks(employee: Employee) -> dict:
-        """transform an Employee object in a dict with its tasks assigned"""
-        print(employee)
-        print(employee.assignments)
+        """transform an Employee object in a dict with its tasks assigned"""        
         return {
             "id": employee.id,
             "name": employee.name,
@@ -40,8 +38,7 @@ class EmployeeService:
             .options(selectinload(Employee.assignments).selectinload(Assignment.task))
             .where(Employee.id == employee_id)
         )                
-        employee = session.exec(statement).first()
-        print(employee)
+        employee = session.exec(statement).first()        
         return EmployeeService.employee_with_tasks(employee) if employee else None            
 
     @staticmethod
@@ -54,8 +51,9 @@ class EmployeeService:
         return [EmployeeService.employee_with_tasks(emp) for emp in employees]
 
     @staticmethod
-    def update_employee(session: Session, employee_id: int, employee_data: Employee) -> Optional[Employee]:
-        employee = EmployeeService.get_employee(session, employee_id)
+    def update_employee(session: Session, employee_id: int, employee_data: Employee) -> Optional[dict]:
+        statement = select(Employee).where(Employee.id == employee_id)
+        employee = session.exec(statement).first()
         if employee:
             employee.sqlmodel_update(employee_data)
             session.add(employee)

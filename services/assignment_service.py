@@ -56,7 +56,8 @@ class AssignmentService:
 
     @staticmethod
     def update_assignment(session: Session, assignment_id: int, assignment_data: Assignment) -> Assignment:
-        assignment = AssignmentService.get_assignment(session, assignment_id)
+        statement = select(Assignment).where(Assignment.id == assignment_id)
+        assignment = session.exec(statement).first()
         if assignment:
             assignment.sqlmodel_update(assignment_data)
             session.add(assignment)

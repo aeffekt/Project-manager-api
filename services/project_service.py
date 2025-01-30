@@ -48,8 +48,9 @@ class ProjectService:
 
     @staticmethod
     def update_project(session: Session, project_id: int, project_data: Project) -> Optional[Project]:
-        # first we obtain the existing project
-        project = ProjectService.get_project(session, project_id)
+        # first we obtain the existing project        
+        statement = select(Project).where(Project.id == project_id)
+        project = session.exec(statement).first()
         if project:
             # Update fields with new data
             project.sqlmodel_update(project_data)
