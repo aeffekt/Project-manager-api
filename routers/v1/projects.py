@@ -10,14 +10,14 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 
 # Read all projects
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_projects(session: Session = Depends(get_session)) -> list[Project]:
+def read_projects(session: Session = Depends(get_session)) -> list[dict]:
     projects = ProjectService.get_all_projects(session)
     return projects
 
 
 # Read one project with ID
 @router.get("/{project_id}", status_code=status.HTTP_200_OK)
-def read_project(project_id: int, session: Session = Depends(get_session)) -> Project:
+def read_project(project_id: int, session: Session = Depends(get_session)) -> dict:
     project = ProjectService.get_project(session, project_id)
     if project is None:
         raise HTTPException(status_code=404, detail="Project not found")

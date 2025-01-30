@@ -9,13 +9,13 @@ router = APIRouter(prefix="/assignments", tags=["assignments"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_assignments(session: Session = Depends(get_session)) -> list[Assignment]:
+def read_assignments(session: Session = Depends(get_session)) -> list[dict]:
     assignments = AssignmentService.get_all_assignments(session)
     return assignments
 
 
 @router.get("/{assignment_id}", status_code=status.HTTP_200_OK)
-def read_assignment(assignment_id: int, session: Session = Depends(get_session)) -> dict[str, Assignment]:
+def read_assignment(assignment_id: int, session: Session = Depends(get_session)) -> dict:
     assignment = AssignmentService.get_assignment(session, assignment_id)
     if assignment is None:
         raise HTTPException(status_code=404, detail="assignment not found")

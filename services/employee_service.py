@@ -1,13 +1,15 @@
 from sqlmodel import Session, select
 from sqlalchemy.orm import selectinload
 from models.project_manager import Employee, Assignment
-from typing import Optional, Dict
+from typing import Optional
 
 
 class EmployeeService:
     @staticmethod
-    def employee_with_tasks(employee: Employee) -> Dict:
-        """transform an Employee object in a Dict with its tasks assigned"""
+    def employee_with_tasks(employee: Employee) -> dict:
+        """transform an Employee object in a dict with its tasks assigned"""
+        print(employee)
+        print(employee.assignments)
         return {
             "id": employee.id,
             "name": employee.name,
@@ -32,17 +34,18 @@ class EmployeeService:
         return employee
 
     @staticmethod
-    def get_employee(session: Session, employee_id: int) -> Optional[Dict]:
+    def get_employee(session: Session, employee_id: int) -> Optional[dict]:
         statement = (
             select(Employee)
             .options(selectinload(Employee.assignments).selectinload(Assignment.task))
             .where(Employee.id == employee_id)
         )                
         employee = session.exec(statement).first()
+        print(employee)
         return EmployeeService.employee_with_tasks(employee) if employee else None            
 
     @staticmethod
-    def get_all_employees(session: Session) -> list[Dict]:
+    def get_all_employees(session: Session) -> list[dict]:
         statement = (
             select(Employee)
             .options(selectinload(Employee.assignments).selectinload(Assignment.task))

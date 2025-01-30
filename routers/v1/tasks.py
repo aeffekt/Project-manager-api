@@ -9,13 +9,13 @@ router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_tasks(session: Session = Depends(get_session)) -> list[Task]:
+def read_tasks(session: Session = Depends(get_session)) -> list[dict]:
     tasks = TaskService.get_all_tasks(session)
     return tasks
 
 
 @router.get("/{task_id}", status_code=status.HTTP_200_OK)
-def read_task(task_id: int, session: Session = Depends(get_session)) -> dict[str, Task]:
+def read_task(task_id: int, session: Session = Depends(get_session)) -> dict:
     task = TaskService.get_task(session, task_id)
     if task is None:
         raise HTTPException(status_code=404, detail="task not found")

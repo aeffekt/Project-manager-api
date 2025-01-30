@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     app_name: str = "PwC Challenge"    
     secret_key: str
     db_url: str
+    db_async_url: str
     db_password: str
     supabase_key: str
     model_config = SettingsConfigDict(env_file=".env")    
@@ -16,9 +17,10 @@ class Settings(BaseSettings):
 settings = Settings()
 
 from routers.v1 import projects, employees, tasks, assignments, healthcheck
+from routers.v2 import projects_async
+
 
 app = FastAPI()
-
 
 # ROUTERS
 app.include_router(projects.router)
@@ -27,6 +29,7 @@ app.include_router(tasks.router)
 app.include_router(assignments.router)
 app.include_router(healthcheck.router)
 
+app.include_router(projects_async.router)
 
 @app.get("/")
 def read_root():

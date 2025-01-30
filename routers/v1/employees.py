@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from db.database import get_session, Session
 from models.project_manager import Employee
 from services.employee_service import EmployeeService
-from typing import Dict
 
 
 # Employee Router
@@ -10,13 +9,13 @@ router = APIRouter(prefix="/employees", tags=["employees"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_employees(session: Session = Depends(get_session)) -> list[Employee]:
+def read_employees(session: Session = Depends(get_session)) -> list[dict]:
     employees = EmployeeService.get_all_employees(session)
     return employees
 
 
 @router.get("/{employee_id}", status_code=status.HTTP_200_OK)
-def read_employee(employee_id: int, session: Session = Depends(get_session)) -> dict[str, Dict]:
+def read_employee(employee_id: int, session: Session = Depends(get_session)) -> dict:
     employee = EmployeeService.get_employee(session, employee_id)
     if employee is None:
         raise HTTPException(status_code=404, detail="Employee not found")

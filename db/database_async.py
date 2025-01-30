@@ -1,13 +1,14 @@
 # database.py
 from typing import AsyncGenerator
 
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from main import settings
 
-DATABASE_URL = "sqlite+aiosqlite:///./test.db"  # Use a suitable database URL
+DATABASE_URL = settings.db_async_url
 
-engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
+engine = create_async_engine(DATABASE_URL, echo=True)
 
 
 async def init_db():

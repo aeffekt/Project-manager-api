@@ -1,9 +1,19 @@
-from sqlmodel import Session, select
-from models.project_manager import Project
-from typing import Optional, List
+from sqlmodel import Session, select, func
+from models.project_manager import Project, Task
+from typing import Optional, List, Dict
 
 
 class ProjectService:
+    def add_tasks_to_project(project: Project, task_count: int) -> Dict:
+        """Transform a Project Object to a Dict with amount of tasks assigned."""        
+        return {
+            "id": project.id,
+            "name of project": project.name,
+            "description": project.description,
+            "start_date": project.start_date,
+            "task_count": task_count
+        }
+
     @staticmethod
     def create_project(project: Project, session: Session) -> Project:
         session.add(project)
@@ -12,16 +22,29 @@ class ProjectService:
         return project
 
     @staticmethod
-    def get_project(session: Session, project_id: int) -> Optional[Project]:
-        project = select(Project).where(Project.id == project_id)
-        result = session.exec(project).first()
-        return result
+    def get_project(session: Session, project_id: int) -> Optional[Dict]:
+        statement = (
+            select(Project, func.count(Task.id).label("task_count"))
+            .outerjoin(Task, Project.id == Task.project_id)
+            .where(Project.id == project_id)
+            .group_by(Project.id)
+        )
+        result = session.exec(statement).first()        
+        if not result:
+            return None
+        project, task_count = result        
+        return ProjectService.add_tasks_to_project(project, task_count)
+
 
     @staticmethod
-    def get_all_projects(session: Session) -> List[Project]:
-        statement = select(Project)
-        results = session.exec(statement).all()
-        return results
+    def get_all_projects(session: Session) -> List[Dict]:
+        statement = (
+            select(Project, func.count(Task.id).label("task_count"))
+            .outerjoin(Task, Project.id == Task.project_id)
+            .group_by(Project.id)
+        )
+        projects = session.exec(statement).all()
+        return [ProjectService.add_tasks_to_project(proj, task_count) for proj, task_count in projects]
 
     @staticmethod
     def update_project(session: Session, project_id: int, project_data: Project) -> Optional[Project]:

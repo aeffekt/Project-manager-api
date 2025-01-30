@@ -1,10 +1,30 @@
 from sqlmodel import Session, select
-from models.project_manager import Task, Project
+from models.project_manager import Task, Project, Assignment
+from sqlalchemy.orm import selectinload
 from typing import Optional
 from datetime import datetime, date
 
 
 class TaskService:
+    @staticmethod
+    def transform_task(task: Task) -> dict:
+        """Transform a Task Object into dict with the employeed assigned."""
+        return {
+            "id": task.id,
+            "name": task.name,
+            "due_date": task.due_date,
+            "project_id": task.project_id,
+            "employees": [
+                {
+                    "id": assignment.employee.id,
+                    "name": assignment.employee.name,
+                    "email": assignment.employee.email,
+                    "position": assignment.employee.position
+                }
+                for assignment in task.assignments if assignment.employee
+            ]
+        }
+    
     @staticmethod
     def adjust_due_date_based_on_project(task_data: dict, session: Session) -> date:
         # Convert due_date to a date object if it's a string
@@ -29,14 +49,25 @@ class TaskService:
         return task
 
     @staticmethod
-    def get_task(session: Session, task_id: int) -> Optional[Task]:
-        statement = select(Task).where(Task.id == task_id)
-        return session.exec(statement).first()
+    def get_task(session: Session, task_id: int) -> Optional[dict]:
+        statement = (
+            select(Task)
+            .options(selectinload(Task.assignments).selectinload(Assignment.employee))
+            .where(Task.id == task_id)
+        )
+
+        task = session.exec(statement).first()
+        return TaskService.transform_task(task) if task else None
 
     @staticmethod
-    def get_all_tasks(session: Session) -> list[Task]:
-        statement = select(Task)
-        return session.exec(statement).all()
+    def get_all_tasks(session: Session) -> list[dict]:
+        statement = (
+            select(Task)
+            .options(selectinload(Task.assignments).selectinload(Assignment.employee))
+        )
+
+        tasks = session.exec(statement).all()
+        return [TaskService.transform_task(task) for task in tasks]
 
     @staticmethod
     def update_task(session: Session, task_id: int, task_data: Task) -> Optional[Task]:
