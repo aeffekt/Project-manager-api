@@ -1,31 +1,30 @@
 erDiagram
     PROJECT {
-        int id PK
+        int id
         string name
         string description
-        date start_date        
+        datetime start_date
+    }
+
+    TASK {
+        int id
+        string name
+        date due_date
+        int project_id
     }
 
     EMPLOYEE {
-        int id PK
+        int id
         string name
         string email
         string position
     }
 
-    TASK {
-        int id PK
-        string name        
-        date due_date
-        int project_id FK
-    }
-
     ASSIGNMENT {
-        int id PK
-        int task_id FK
-        int employee_id FK
+        int id
+        int task_id
+        int employee_id
     }
-
-    PROJECT ||--o{ TASK : "has"
-    TASK ||--o{ ASSIGNMENT : "is assigned to"
-    EMPLOYEE ||--o{ ASSIGNMENT : "works on"
+    PROJECT ||--o{ TASK : contains
+    TASK ||--o{ ASSIGNMENT : has
+    EMPLOYEE ||--o{ ASSIGNMENT : assigned
