@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant SistemaExterno as Sistema Externo
+    participant APIRest as API REST
+    participant BaseDeDatos as Base de Datos
+
+    SistemaExterno->>APIRest: GET /tasks (Obtener lista de tareas)
+    APIRest->>BaseDeDatos: Consultar tareas
+    BaseDeDatos-->>APIRest: Lista de tareas
+    APIRest-->>SistemaExterno: Respuesta con lista de tareas
+
+    SistemaExterno->>APIRest: GET /employees (Obtener lista de empleados)
+    APIRest->>BaseDeDatos: Consultar empleados
+    BaseDeDatos-->>APIRest: Lista de empleados
+    APIRest-->>SistemaExterno: Respuesta con lista de empleados
+
+    SistemaExterno->>APIRest: POST /assign (Asignar tarea a empleado)
+    APIRest->>BaseDeDatos: Crear asignación (Assignment)
+    BaseDeDatos-->>APIRest: Confirmación de asignación
+    APIRest-->>SistemaExterno: Respuesta de éxito
