@@ -80,12 +80,15 @@ Delete a project with the id
 
 
 ## DB migration with alembic
-
 run this commands on models changes to upgrade database and aply migrations
 ```bash
 alembic revision --autogenerate -m "description revision migration"
 alembic upgrade head
 ```
+
+## Dataset online
+#### [Link Database in Supabase](https://supabase.com/dashboard/project/ldbzpeddtslywzbsnfqm)
+
 
 ## Mermaid Diagrams
 
