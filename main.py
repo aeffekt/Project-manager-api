@@ -1,7 +1,3 @@
-from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
 """
     This is the entry point of the FastAPI application. It sets up the API routes, 
     initializes the database session, and configures dependencies for the 
@@ -10,13 +6,19 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
     Key Features:
     - Manages employees, projects, tasks, and assignments.
     - Provides RESTful endpoints for CRUD operations.
-    - Uses SQLModel for database interaction.
-    - Supports relationships between entities (employees, tasks, projects).
+    - Uses SQLModel for database interaction.    
     - Can integrate with external systems via API.
+    - v1 for sync API and v2 for async API.
+    - alembic for database migrations.
 
     Author: Agustin Arnaiz
     Date: 31/01/25
 """
+from fastapi import FastAPI
+import importlib
+from fastapi.responses import RedirectResponse
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 # Pydantic Program settings loading .env file
 class Settings(BaseSettings):
@@ -33,29 +35,22 @@ settings = Settings()
 settings.db_url = "postgresql://postgres.ldbzpeddtslywzbsnfqm:Calidad-10@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
 settings.db_async_url = "postgresql+asyncpg://postgres.ldbzpeddtslywzbsnfqm:Calidad-10@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
 
-
-# All v1 endpoints that use sync SQLAlchemy
-from api.v1.routers import projects, employees, tasks, assignments, healthcheck
-# All v2 endpoints that use async SQLAlchemy
-from api.v2.routers import projects_async, employees_async, tasks_async, assignments_async, healthcheck_async
-
-
 app = FastAPI()
 
-# ROUTERS V1
-app.include_router(projects.router)
-app.include_router(employees.router)
-app.include_router(tasks.router)
-app.include_router(assignments.router)
-app.include_router(healthcheck.router)
-# ROUTERS V2
-app.include_router(projects_async.router)
-app.include_router(employees_async.router)
-app.include_router(tasks_async.router)
-app.include_router(assignments_async.router)
-app.include_router(healthcheck_async.router)
+# Modules for each version
+versions = {
+    "v1": ["projects", "employees", "tasks", "assignments", "healthcheck"],
+    "v2": ["projects", "employees", "tasks", "assignments", "healthcheck"],
+}
+
+# Dynamic import for the routers
+for version, modules in versions.items():
+    for module in modules:
+        module_name = f"api.{version}.routers.{module}"
+        router_module = importlib.import_module(module_name)
+        app.include_router(router_module.router)
 
 
 @app.get("/")
 def read_root():
-    return RedirectResponse(url="v1/health")
+    return RedirectResponse(url="v2/health")

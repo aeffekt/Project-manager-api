@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from db.database_async import get_async_session
 from models.project_manager import Project
-from api.v2.services.async_project_service import ProjectService
+from api.v2.services.project_service import ProjectService
 
 
 # Project Router

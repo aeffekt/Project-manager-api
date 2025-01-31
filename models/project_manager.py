@@ -1,3 +1,7 @@
+"""
+This file defines the SQLModel models for the project manager API,
+including Project, Employee, Task, and Assignment.
+"""
 from sqlmodel import Field, SQLModel, Column, TIMESTAMP, text, Relationship
 from typing import Optional, List
 from datetime import datetime, date
