@@ -42,13 +42,15 @@ class AssignmentService:
         return AssignmentService.transform_assignment(assignment) if assignment else None
 
     @staticmethod
-    def get_all_assignments(session: Session) -> list[dict]:
+    def get_all_assignments(session: Session, offset: int = 0, limit: int = 10) -> list[dict]:
         statement = (
             select(Assignment)
             .options(
                 selectinload(Assignment.employee),
                 selectinload(Assignment.task)
             )
+            .offset(offset)
+            .limit(limit)
         )
 
         assignments = session.exec(statement).all()

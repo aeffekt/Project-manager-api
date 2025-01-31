@@ -10,8 +10,8 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 
 # Read all projects
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_projects(session: Session = Depends(get_session)) -> list[dict]:
-    projects = ProjectService.get_all_projects(session)
+def read_projects(session: Session = Depends(get_session), offset: int = 0, limit: int = 10) -> list[dict]:
+    projects = ProjectService.get_all_projects(session, offset, limit)
     return projects
 
 

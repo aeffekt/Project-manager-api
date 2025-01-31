@@ -42,10 +42,12 @@ class EmployeeService:
         return EmployeeService.employee_with_tasks(employee) if employee else None            
 
     @staticmethod
-    def get_all_employees(session: Session) -> list[dict]:
+    def get_all_employees(session: Session, offset: int = 0, limit: int = 10) -> list[dict]:
         statement = (
             select(Employee)
             .options(selectinload(Employee.assignments).selectinload(Assignment.task))
+            .offset(offset)
+            .limit(limit)
         )
         employees = session.exec(statement).all()
         return [EmployeeService.employee_with_tasks(emp) for emp in employees]

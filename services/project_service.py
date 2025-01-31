@@ -1,11 +1,11 @@
 from sqlmodel import Session, select, func
 from models.project_manager import Project, Task
-from typing import Optional, List, Dict
+from typing import Optional, List
 
 
 class ProjectService:
-    def add_tasks_to_project(project: Project, task_count: int) -> Dict:
-        """Transform a Project Object to a Dict with amount of tasks assigned."""        
+    def add_tasks_to_project(project: Project, task_count: int) -> dict:
+        """Transform a Project Object to a dict with amount of tasks assigned."""        
         return {
             "id": project.id,
             "name of project": project.name,
@@ -22,7 +22,7 @@ class ProjectService:
         return project
 
     @staticmethod
-    def get_project(session: Session, project_id: int) -> Optional[Dict]:
+    def get_project(session: Session, project_id: int) -> Optional[dict]:
         statement = (
             select(Project, func.count(Task.id).label("task_count"))
             .outerjoin(Task, Project.id == Task.project_id)
@@ -37,11 +37,13 @@ class ProjectService:
 
 
     @staticmethod
-    def get_all_projects(session: Session) -> List[Dict]:
+    def get_all_projects(session: Session, offset: int = 0, limit: int = 10) -> List[dict]:
         statement = (
             select(Project, func.count(Task.id).label("task_count"))
             .outerjoin(Task, Project.id == Task.project_id)
             .group_by(Project.id)
+            .offset(offset)
+            .limit(limit)
         )
         projects = session.exec(statement).all()
         return [ProjectService.add_tasks_to_project(proj, task_count) for proj, task_count in projects]

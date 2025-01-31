@@ -9,8 +9,8 @@ router = APIRouter(prefix="/assignments", tags=["assignments"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_assignments(session: Session = Depends(get_session)) -> list[dict]:
-    assignments = AssignmentService.get_all_assignments(session)
+def read_assignments(session: Session = Depends(get_session), offset: int = 0, limit: int = 10) -> list[dict]:
+    assignments = AssignmentService.get_all_assignments(session, offset, limit)
     return assignments
 
 

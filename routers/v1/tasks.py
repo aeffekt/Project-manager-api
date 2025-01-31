@@ -9,8 +9,8 @@ router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_tasks(session: Session = Depends(get_session)) -> list[dict]:
-    tasks = TaskService.get_all_tasks(session)
+def read_tasks(session: Session = Depends(get_session), offset: int = 0, limit: int = 10) -> list[dict]:
+    tasks = TaskService.get_all_tasks(session, offset, limit)
     return tasks
 
 

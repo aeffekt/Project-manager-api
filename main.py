@@ -20,7 +20,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Pydantic Program settings loading .env file
 class Settings(BaseSettings):
-    app_name: str = "PwC Challenge"    
+    app_name: str = "PwC Challenge API"    
     secret_key: str
     db_url: str
     db_async_url: str

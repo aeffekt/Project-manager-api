@@ -60,10 +60,12 @@ class TaskService:
         return TaskService.transform_task(task) if task else None
 
     @staticmethod
-    def get_all_tasks(session: Session) -> list[dict]:
+    def get_all_tasks(session: Session, offset: int = 0, limit: int = 10) -> list[dict]:
         statement = (
             select(Task)
             .options(selectinload(Task.assignments).selectinload(Assignment.employee))
+            .offset(offset)
+            .limit(limit)
         )
 
         tasks = session.exec(statement).all()

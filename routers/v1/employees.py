@@ -9,8 +9,8 @@ router = APIRouter(prefix="/employees", tags=["employees"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def read_employees(session: Session = Depends(get_session)) -> list[dict]:
-    employees = EmployeeService.get_all_employees(session)
+def read_employees(session: Session = Depends(get_session), offset: int = 0, limit: int = 10) -> list[dict]:
+    employees = EmployeeService.get_all_employees(session, offset, limit)
     return employees
 
 
