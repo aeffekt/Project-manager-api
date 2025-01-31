@@ -1,47 +1,52 @@
-
-# routers/projects.py
-from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from db.database_async import get_async_session
 from models.project_manager import Project
-from services.project_service_async import ProjectService
-
-router = APIRouter(prefix="/projects_async", tags=["projects_async"])
-project_service = ProjectService()
+from services.async_project_service import ProjectService
 
 
+# Project Router
+router = APIRouter(prefix="/v2/projects", tags=["v2", "projects"])
 
+project_service_async = ProjectService()
+
+# Create a project
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_project(project: Project, session: AsyncSession = Depends(get_async_session)):
-    return await project_service.create_project(session, project)
+async def create_project(project: Project, session: AsyncSession = Depends(get_async_session)) -> Project:
+    return await project_service_async.create_project(project, session)
 
 
-@router.get("/", response_model=List[Project])
-async def read_projects(session: AsyncSession = Depends(get_async_session)):    
-    return await project_service.get_all_projects(session)
+# Read all projects
+@router.get("/", status_code=status.HTTP_200_OK)
+async def read_projects(session: AsyncSession = Depends(get_async_session), offset: int = 0, limit: int = 10) -> list[dict]:
+    projects = await project_service_async.get_all_projects(session, offset, limit)
+    return projects
 
 
-@router.get("/{project_id}", response_model=Project)
-async def read_project(project_id: int, session: AsyncSession = Depends(get_async_session)):
-    project = await project_service.get_project(session, project_id)
-    if not project:
+# Read one project with ID
+@router.get("/{project_id}", status_code=status.HTTP_200_OK)
+async def read_project(project_id: int, session: AsyncSession = Depends(get_async_session)) -> dict:
+    project = await project_service_async.get_project(session, project_id)
+    if project is None:
         raise HTTPException(status_code=404, detail="Project not found")
-    return project
+    return {"project": project}
 
 
-@router.patch("/{project_id}", response_model=Project)
-async def update_project(project_id: int, project: Project, session: AsyncSession = Depends(get_async_session)):
-    updated_project = await project_service.update_project(session, project_id, project)
-    if not updated_project:
+# Update a project
+@router.put("/{project_id}", status_code=status.HTTP_200_OK)
+async def update_project(project_id: int, project: Project, session: AsyncSession = Depends(get_async_session)) ->  dict[str, Project]:
+    project_data = project.model_dump(exclude_unset=True)
+    updated_project = await project_service_async.update_project(session, project_id, project_data)
+    if updated_project is None:
         raise HTTPException(status_code=404, detail="Project not found")
-    return updated_project
+    return {"project": updated_project}
 
 
-@router.delete("/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_project(project_id: int, session: AsyncSession = Depends(get_async_session)):
-    if not await project_service.delete_project(session, project_id):
+# Delete a project
+@router.delete("/{project_id}", status_code=status.HTTP_200_OK)
+async def delete_project(project_id: int, session: AsyncSession = Depends(get_async_session)) -> dict:
+    deleted_project = await project_service_async.delete_project(session, project_id)
+    if deleted_project is None:
         raise HTTPException(status_code=404, detail="Project not found")
-    return None
+    return {"message": f"Project {project_id} deleted successfully"}

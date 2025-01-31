@@ -5,7 +5,7 @@ from services.task_service import TaskService
 
 
 # Task Router
-router = APIRouter(prefix="/tasks", tags=["tasks"])
+router = APIRouter(prefix="/v1/tasks", tags=["v1", "tasks"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)

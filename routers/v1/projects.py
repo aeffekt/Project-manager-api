@@ -5,7 +5,7 @@ from services.project_service import ProjectService
 
 
 # Project Router
-router = APIRouter(prefix="/projects", tags=["projects"])
+router = APIRouter(prefix="/v1/projects", tags=["v1", "projects"])
 
 
 # Read all projects

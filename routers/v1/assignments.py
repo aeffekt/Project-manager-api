@@ -5,7 +5,7 @@ from services.assignment_service import AssignmentService
 
 
 # assignment Router
-router = APIRouter(prefix="/assignments", tags=["assignments"])
+router = APIRouter(prefix="/v1/assignments", tags=["v1", "assignments"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)

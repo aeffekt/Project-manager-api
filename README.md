@@ -24,7 +24,7 @@ fastapi run dev main.py
 ## Endpoints
 
 ### Swagger and ReDoc Documentation
-http://localhost:8000/          (Redirects to swagger docs)
+http://localhost:8000/          (Redirects to Healthcheck)
 http://localhost:8000/docs      (Swagger UI)
 http://localhost:8000/redoc     (ReDoc)
 
@@ -34,26 +34,48 @@ https://127.0.0.1/health/
 https://127.0.0.1/version/
 
 
-### Endpoints for projects. They replicate for: employees, tasks and assignments
+### Endpoints for V1 "projects". They replicate for: /employees, /tasks and /assignments
 
-#### POST /projects/
-https://127.0.0.1/project/
+#### POST /v1/projects/
+https://127.0.0.1/v1/project/
 Create new project
 
-#### GET /projects/
-https://127.0.0.1/projects
-Returns a list of all projects.
+#### GET /v1/projects/
+https://127.0.0.1/projects?offset=0&limit=10
+Returns a list of all projects with query parameter offset and limit for pagination.
 
-#### GET /projects/id
-https://127.0.0.1/project/1
+#### GET /v1/projects/id
+https://127.0.0.1/v1/project/1
 Return a projects with the id.
 
-#### PUT /projects/id
-https://127.0.0.1/project/1
+#### PUT /v1/projects/id
+https://127.0.0.1/v1/project/1
 Update a project
 
-#### DELETE /projects/id
-https://127.0.0.1/project/1
+#### DELETE /v1/projects/id
+https://127.0.0.1/v1/project/1
+Delete a project with the id
+
+### ASYNC Endpoints for V2 "projects". They replicate for: /employees, /tasks and /assignments
+
+#### POST /v2/projects/
+https://127.0.0.1/v2/project/
+Create new project
+
+#### GET /v2/projects/
+https://127.0.0.1/projects?offset=0&limit=10
+Returns a list of all projects with query parameter offset and limit for pagination.
+
+#### GET /v2/projects/id
+https://127.0.0.1/v2/project/1
+Return a projects with the id.
+
+#### PUT /v2/projects/id
+https://127.0.0.1/v2/project/1
+Update a project
+
+#### DELETE /v2/projects/id
+https://127.0.0.1/v2/project/1
 Delete a project with the id
 
 

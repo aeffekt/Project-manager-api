@@ -5,7 +5,7 @@ from services.employee_service import EmployeeService
 
 
 # Employee Router
-router = APIRouter(prefix="/employees", tags=["employees"])
+router = APIRouter(prefix="/v1/employees", tags=["v1", "employees"])
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
