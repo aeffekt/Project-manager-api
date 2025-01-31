@@ -1,3 +1,8 @@
+"""
+This file defines the FastAPI router for handling assignment-related API endpoints
+(version 2). It uses the AssignmentService to interact with the database and
+provides endpoints for creating, reading, updating, and deleting assignments.
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from db.database_async import get_async_session

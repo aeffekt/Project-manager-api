@@ -1,3 +1,9 @@
+"""
+This file defines the ProjectService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Project objects
+using a synchronous database session. It also includes methods to retrieve
+projects with the count of associated tasks.
+"""
 from sqlmodel import Session, select, func
 from models.project_manager import Project, Task
 from typing import Optional, List

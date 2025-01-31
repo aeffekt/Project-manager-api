@@ -1,3 +1,10 @@
+"""
+This file defines the EmployeeService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Employee objects
+using an asynchronous database session. It also includes a method for
+transforming Employee objects into dictionaries, including related Task data
+from assigned Assignments.
+"""
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import selectinload

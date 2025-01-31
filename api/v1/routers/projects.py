@@ -1,3 +1,9 @@
+
+"""
+This file defines the FastAPI router for handling project-related API endpoints
+(version 1). It uses the ProjectService to interact with the database and
+provides endpoints for creating, reading, updating, and deleting projects.
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from db.database import get_session, Session
 from models.project_manager import Project

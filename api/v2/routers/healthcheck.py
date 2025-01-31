@@ -1,3 +1,8 @@
+"""
+This file defines the FastAPI router for health check and version endpoints
+(version 2). It provides basic information about the API, including its name,
+description, status, and version.
+"""
 from fastapi import APIRouter, status
 from main import settings
 

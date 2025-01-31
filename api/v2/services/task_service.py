@@ -1,3 +1,10 @@
+"""
+This file defines the TaskService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Task objects
+using an asynchronous database session. It includes methods for transforming
+Task objects into dictionaries (including assigned employee data) and
+adjusting task due dates based on the associated project's start date.
+"""
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from models.project_manager import Task, Project, Assignment

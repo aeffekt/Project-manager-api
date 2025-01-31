@@ -1,3 +1,10 @@
+"""
+This file defines the EmployeeService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Employee objects
+using a synchronous database session. It also includes a method for
+transforming Employee objects into dictionaries, including related Task data
+from assigned Assignments.
+"""
 from sqlmodel import Session, select
 from sqlalchemy.orm import selectinload
 from models.project_manager import Employee, Assignment

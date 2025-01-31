@@ -1,3 +1,8 @@
+"""
+This file defines the FastAPI router for handling project-related API endpoints
+(version 2). It uses the ProjectService to interact with the database and
+provides endpoints for creating, reading, updating, and deleting projects.
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 

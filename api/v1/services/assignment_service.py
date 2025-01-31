@@ -1,3 +1,10 @@
+"""
+This file defines the AssignmentService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Assignment objects
+using a synchronous database session. It also includes a method for
+transforming Assignment objects into dictionaries, including related Employee
+and Task data.
+"""
 from sqlmodel import Session, select
 from models.project_manager import Assignment
 from sqlalchemy.orm import selectinload

@@ -1,3 +1,8 @@
+"""
+This file defines the FastAPI router for handling employee-related API endpoints
+(version 2). It uses the EmployeeService to interact with the database and
+provides endpoints for creating, reading, updating, and deleting employees.
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from db.database_async import get_async_session
@@ -20,7 +25,7 @@ async def read_employee(employee_id: int, session: AsyncSession = Depends(get_as
     employee = await EmployeeService.get_employee(session, employee_id)
     if employee is None:
         raise HTTPException(status_code=404, detail="Employee not found")
-    return {"employee": employee}
+    return {"employee's information": employee}
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

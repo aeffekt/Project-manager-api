@@ -1,3 +1,10 @@
+"""
+This file defines the TaskService class, which provides methods for
+performing CRUD (Create, Read, Update, Delete) operations on Task objects
+using a synchronous database session. It includes methods for transforming
+Task objects into dictionaries (including assigned employee data) and
+adjusting task due dates based on the associated project's start date.
+"""
 from sqlmodel import Session, select
 from models.project_manager import Task, Project, Assignment
 from sqlalchemy.orm import selectinload

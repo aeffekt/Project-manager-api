@@ -1,3 +1,8 @@
+"""
+This file defines the FastAPI router for handling task-related API endpoints
+(version 2). It uses the TaskService to interact with the database and
+provides endpoints for creating, reading, updating, and deleting tasks.
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from db.database_async import get_async_session
