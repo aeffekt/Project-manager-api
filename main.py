@@ -35,27 +35,27 @@ settings.db_async_url = "postgresql+asyncpg://postgres.ldbzpeddtslywzbsnfqm:Cali
 
 
 # All v1 endpoints that use sync SQLAlchemy
-from routers.v1 import projects, employees, tasks, assignments, healthcheck
-
+from api.v1.routers import projects, employees, tasks, assignments, healthcheck
 # All v2 endpoints that use async SQLAlchemy
-from routers.v2 import projects_async, employees_async, tasks_async, assignments_async, healthcheck_async
+from api.v2.routers import projects_async, employees_async, tasks_async, assignments_async, healthcheck_async
 
 
 app = FastAPI()
 
-# ROUTERS
+# ROUTERS V1
 app.include_router(projects.router)
 app.include_router(employees.router)
 app.include_router(tasks.router)
 app.include_router(assignments.router)
 app.include_router(healthcheck.router)
-
+# ROUTERS V2
 app.include_router(projects_async.router)
 app.include_router(employees_async.router)
 app.include_router(tasks_async.router)
 app.include_router(assignments_async.router)
 app.include_router(healthcheck_async.router)
 
+
 @app.get("/")
 def read_root():
-    return RedirectResponse(url="v2/health")
+    return RedirectResponse(url="v1/health")

@@ -13,9 +13,8 @@ class EmployeeService:
             "name": employee.name,
             "email": employee.email,
             "position": employee.position,
-            "tasks": [
-                {
-                    "id": assignment.task.id,
+            "Assigned tasks": [
+                {                    
                     "name": assignment.task.name,
                     "due_date": assignment.task.due_date,
                     "project_id": assignment.task.project_id

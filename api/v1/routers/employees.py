@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from db.database import get_session, Session
 from models.project_manager import Employee
-from services.employee_service import EmployeeService
+from api.v1.services.employee_service import EmployeeService
 
 
 # Employee Router

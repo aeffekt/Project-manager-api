@@ -1,4 +1,5 @@
-from sqlmodel import Session, select
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 from models.project_manager import Task, Project, Assignment
 from sqlalchemy.orm import selectinload
 from typing import Optional
@@ -7,7 +8,7 @@ from datetime import datetime, date
 
 class TaskService:
     @staticmethod
-    def transform_task(task: Task) -> dict:
+    async def transform_task(task: Task) -> dict:
         """Transform a Task Object into dict with the employeed assigned."""
         return {
             "id": task.id,
@@ -26,7 +27,7 @@ class TaskService:
         }
     
     @staticmethod
-    def adjust_due_date_based_on_project(task_data: dict, session: Session) -> date:
+    async def adjust_due_date_based_on_project(task_data: dict, session: AsyncSession) -> date:
         # Convert due_date to a date object if it's a string
         if isinstance(task_data.get("due_date"), str):
             task_data["due_date"] = datetime.strptime(task_data["due_date"], "%Y-%m-%d").date()
@@ -38,29 +39,29 @@ class TaskService:
         return task_data
     
     @staticmethod
-    def create_task(task: Task, session: Session) -> Task:
+    async def create_task(task: Task, session: AsyncSession) -> Task:
         task_data = task.model_dump()
         # Adjust due_date based on the project's start_date
         task_data = TaskService.adjust_due_date_based_on_project(task_data, session)
         task = Task(**task_data)
         session.add(task)
-        session.commit()
-        session.refresh(task)
+        await session.commit()
+        await session.refresh(task)
         return task
 
     @staticmethod
-    def get_task(session: Session, task_id: int) -> Optional[dict]:
+    async def get_task(session: AsyncSession, task_id: int) -> Optional[dict]:
         statement = (
             select(Task)
             .options(selectinload(Task.assignments).selectinload(Assignment.employee))
             .where(Task.id == task_id)
         )
 
-        task = session.exec(statement).first()
+        task = await session.exec(statement).first()
         return TaskService.transform_task(task) if task else None
 
     @staticmethod
-    def get_all_tasks(session: Session, offset: int = 0, limit: int = 10) -> list[dict]:
+    async def get_all_tasks(session: AsyncSession, offset: int = 0, limit: int = 10) -> list[dict]:
         statement = (
             select(Task)
             .options(selectinload(Task.assignments).selectinload(Assignment.employee))
@@ -68,28 +69,28 @@ class TaskService:
             .limit(limit)
         )
 
-        tasks = session.exec(statement).all()
-        return [TaskService.transform_task(task) for task in tasks]
+        tasks = await session.exec(statement)
+        return [TaskService.transform_task(task) for task in tasks.all()]
 
     @staticmethod
-    def update_task(session: Session, task_id: int, task_data: Task) -> Optional[Task]:
+    async def update_task(session: AsyncSession, task_id: int, task_data: Task) -> Optional[Task]:
         statement = select(Task).where(Task.id == task_id)
-        task = session.exec(statement).first()        
+        task = await session.exec(statement).first()        
         if task:
             # Adjust due_date based on the project's start_date
             task_data = TaskService.adjust_due_date_based_on_project(task_data, session)
 
             task.sqlmodel_update(task_data)
             session.add(task)
-            session.commit()
-            session.refresh(task)
+            await session.commit()
+            await session.refresh(task)
         return task
 
     @staticmethod
-    def delete_task(session: Session, task_id: int) -> Optional[Task]:
+    async def delete_task(session: AsyncSession, task_id: int) -> Optional[Task]:
         statement = select(Task).where(Task.id == task_id)
-        task = session.exec(statement).first() 
+        task = await session.exec(statement).first() 
         if task:
-            session.delete(task)
-            session.commit()
+            await session.delete(task)
+            await session.commit()
         return task

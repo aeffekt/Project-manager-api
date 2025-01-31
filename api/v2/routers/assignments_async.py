@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from db.database_async import get_async_session
 from models.project_manager import Assignment
-from services.async_assignment_service import AssignmentService
+from api.v2.services.async_assignment_service import AssignmentService
 
 
 # assignment Router

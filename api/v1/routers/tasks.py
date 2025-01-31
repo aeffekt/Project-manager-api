@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from db.database import get_session, Session
 from models.project_manager import Task
-from services.task_service import TaskService
+from api.v1.services.task_service import TaskService
 
 
 # Task Router

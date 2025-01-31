@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from db.database_async import get_async_session
 from models.project_manager import Employee
-from services.async_employee_service import EmployeeService
+from api.v2.services.async_employee_service import EmployeeService
 
 
 # Employee Router
