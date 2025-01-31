@@ -9,9 +9,8 @@ class AssignmentService:
     def transform_assignment(assignment: Assignment) -> dict:
         """Transform an Assignment Object into dict with the employeed assigned and the task."""
         return {
-            "id": assignment.id,
-            "employee": {
-                "id": assignment.employee.id,
+            "assignment id": assignment.id,
+            "employee assigned": {                
                 "name": assignment.employee.name
             } if assignment.employee else None,
             "task": {

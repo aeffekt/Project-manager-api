@@ -8,7 +8,7 @@ class ProjectService:
     async def add_tasks_to_project(project: Project, task_count: int) -> dict:
         """Transform a Project Object to a dict with amount of tasks assigned."""        
         return {
-            "id": project.id,
+            "project id": project.id,
             "name of project": project.name,
             "description": project.description,
             "start_date": project.start_date,

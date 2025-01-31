@@ -11,11 +11,11 @@ class TaskService:
     async def transform_task(task: Task) -> dict:
         """Transform a Task Object into dict with the employeed assigned."""
         return {
-            "id": task.id,
+            "task id": task.id,
             "name": task.name,
             "due_date": task.due_date,
             "project_id": task.project_id,
-            "employees": [
+            "employees assigned": [
                 {
                     "id": assignment.employee.id,
                     "name": assignment.employee.name,
