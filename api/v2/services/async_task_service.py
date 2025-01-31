@@ -58,7 +58,7 @@ class TaskService:
         )
 
         task = await session.exec(statement).first()
-        return TaskService.transform_task(task) if task else None
+        return await TaskService.transform_task(task) if task else None
 
     @staticmethod
     async def get_all_tasks(session: AsyncSession, offset: int = 0, limit: int = 10) -> list[dict]:
@@ -70,7 +70,7 @@ class TaskService:
         )
 
         tasks = await session.exec(statement)
-        return [TaskService.transform_task(task) for task in tasks.all()]
+        return [await TaskService.transform_task(task) for task in tasks.all()]
 
     @staticmethod
     async def update_task(session: AsyncSession, task_id: int, task_data: Task) -> Optional[Task]:

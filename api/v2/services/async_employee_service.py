@@ -51,7 +51,7 @@ class EmployeeService:
             .limit(limit)
         )
         employees = await session.exec(statement)
-        return await [EmployeeService.employee_with_tasks(emp) for emp in employees.all()]
+        return [await EmployeeService.employee_with_tasks(emp) for emp in employees.all()]
 
     @staticmethod
     async def update_employee(session: AsyncSession, employee_id: int, employee_data: Employee) -> Optional[dict]:

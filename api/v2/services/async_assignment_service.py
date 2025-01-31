@@ -54,7 +54,7 @@ class AssignmentService:
         )
 
         assignments = await session.exec(statement)
-        return [AssignmentService.transform_assignment(assignment) for assignment in assignments.all()]
+        return [await AssignmentService.transform_assignment(assignment) for assignment in assignments.all()]
 
     @staticmethod
     async def update_assignment(session: AsyncSession, assignment_id: int, assignment_data: Assignment) -> Assignment:

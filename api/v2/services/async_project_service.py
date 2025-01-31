@@ -34,7 +34,7 @@ class ProjectService:
         if not result:
             return None
         project, task_count = result.first()
-        return ProjectService.add_tasks_to_project(project, task_count)
+        return await ProjectService.add_tasks_to_project(project, task_count)
 
 
     @staticmethod
@@ -47,7 +47,7 @@ class ProjectService:
             .limit(limit)
         )
         projects = await session.exec(statement)
-        return [ProjectService.add_tasks_to_project(proj, task_count) for proj, task_count in projects.all()]
+        return [await ProjectService.add_tasks_to_project(proj, task_count) for proj, task_count in projects.all()]
 
     @staticmethod
     async def update_project(session: AsyncSession, project_id: int, project_data: Project) -> Optional[Project]:
