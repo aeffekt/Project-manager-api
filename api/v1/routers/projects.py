@@ -39,7 +39,7 @@ def create_project(project: Project, session: Session = Depends(get_session)) ->
 # Update a project
 @router.put("/{project_id}", status_code=status.HTTP_200_OK)
 def update_project(project_id: int, project: Project, session: Session = Depends(get_session)) ->  dict[str, Project]:
-    project_data = project.model_dump(exclude_unset=True)
+    project_data = project.model_dump(exclude_unset=True)       # converts the Pydantic model to a dictionary
     updated_project = ProjectService.update_project(session, project_id, project_data)
     if updated_project is None:
         raise HTTPException(status_code=404, detail="Project not found")

@@ -1,8 +1,0 @@
-Se instalo driver asyncpg 
-se modifico la ruta de la db: postgres+asyncpg 
-se modifico database.py para crear un create_async_engine y AsyncSession de sqlalchemy
-se moficaron los routes como async, y se implemento await en el retorno
-lo mismo para la capa de servicios, await en cada consulta a la db y async en los def
-
-Funciono para POST
-Fallo para GET. error: db.exec() no reconocido, pedia usar execute() que retorna otro tipo de datos, y la documentacion oficial de sqlmodel aun no esta en linea para este tipo de trabajo.

@@ -32,7 +32,7 @@ class Employee(SQLModel, table=True):
 
 
 class Task(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     name: str    
     due_date: Optional[date] = Field(default=None)
     project_id: int = Field(default=None, foreign_key="project.id")
@@ -45,7 +45,7 @@ class Task(SQLModel, table=True):
 
 
 class Assignment(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     task_id: int = Field(default=None, foreign_key="task.id")
     employee_id: int = Field(default=None, foreign_key="employee.id")
 
