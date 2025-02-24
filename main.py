@@ -19,6 +19,7 @@ import importlib
 from fastapi.responses import RedirectResponse
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from fastapi.middleware.cors import CORSMiddleware
 
 # Pydantic Program settings loading .env file
 class Settings(BaseSettings):
@@ -32,6 +33,15 @@ class Settings(BaseSettings):
 settings = Settings()
 
 app = FastAPI()
+
+# CORS Configuration for React App
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Modules for each version
 versions = {
