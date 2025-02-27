@@ -9,11 +9,14 @@ from main import settings
 
 # Create the database engine
 engine = create_engine(settings.db_url)
-SQLModel.metadata.create_all(engine)
 
+def init_db():
+    SQLModel.metadata.create_all(engine)
+
+init_db()
 
 # Dependency: Get the session
-def get_session():
+def get_session() -> Session:
     with Session(engine) as session:
         yield session
         

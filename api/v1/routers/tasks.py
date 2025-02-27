@@ -4,7 +4,8 @@ This file defines the FastAPI router for handling task-related API endpoints
 provides endpoints for creating, reading, updating, and deleting tasks.
 """
 from fastapi import APIRouter, Depends, HTTPException, status
-from db.database import get_session, Session
+from db.database import get_session
+from sqlmodel import Session
 from models.project_manager import Task
 from api.v1.services.task_service import TaskService
 

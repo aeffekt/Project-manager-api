@@ -32,6 +32,10 @@ class Settings(BaseSettings):
 # Program settings instance
 settings = Settings()
 
+# !!!!!!! NOTE: This explicit paths are for the sake of the challenge, in a real world scenario the .env file should be used
+settings.db_url = "postgresql://postgres.ldbzpeddtslywzbsnfqm:Calidad-10@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
+settings.db_async_url = "postgresql+asyncpg://postgres.ldbzpeddtslywzbsnfqm:Calidad-10@aws-0-us-west-1.pooler.supabase.com:6543/postgres"
+
 app = FastAPI()
 
 # CORS Configuration for React App

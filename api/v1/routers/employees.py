@@ -4,7 +4,8 @@ This file defines the FastAPI router for handling employee-related API endpoints
 provides endpoints for creating, reading, updating, and deleting employees.
 """
 from fastapi import APIRouter, Depends, HTTPException, status
-from db.database import get_session, Session
+from sqlmodel import Session
+from db.database import get_session
 from models.project_manager import Employee
 from api.v1.services.employee_service import EmployeeService
 
