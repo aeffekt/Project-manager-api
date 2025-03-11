@@ -4,7 +4,7 @@
 download the project's repository and run the following command:
 
 ```bash
-pip install -r requirements.txt
+docker-compose up --build
 ```
 
 
