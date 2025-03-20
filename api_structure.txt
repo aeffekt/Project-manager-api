@@ -1,0 +1,44 @@
+mi estructura es: 
+api_project_manager/
+│
+├── main.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── .env
+├── alembic.ini
+├── migrations/
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions/
+│       └── ... (migraciones)
+└── api/
+│   ├── v1
+│	│   ├── routers
+│	│	│   ├── assignments.py
+│	│	│   ├── employees.py
+│	│	│   ├── healthcheck.py
+│	│	│   ├── projects.py
+│	│	│	└── tasks.py
+│	│   └── services
+│	│	│   ├── assignments_service.py
+│	│	│   ├── employees_service.py
+│	│	│   ├── projects_service.py
+│	│	│	└── tasks_service.py
+│   └── v2
+│	│   ├── routers
+│	│	│   ├── assignments.py
+│	│	│   ├── employees.py
+│	│	│   ├── healthcheck.py
+│	│	│   ├── projects.py
+│	│	│	└── tasks.py
+│	│   └── services
+│	│	│   ├── assignments_service.py
+│	│	│   ├── employees_service.py
+│	│	│   ├── projects_service.py
+│	│	│	└── tasks_service.py
+└── models/
+│   └── project_manager.py
+└── db/
+	├── database.py
+    └── database_async.py
